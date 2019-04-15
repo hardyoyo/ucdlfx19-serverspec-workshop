@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "highlight": "^0.2.4",
+    "highlight.js": "^9.15.6",
+    "reveal-code-focus": "^1.1.0"
+  }
+}
