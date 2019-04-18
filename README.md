@@ -24,8 +24,10 @@
 
   `reveal-md --print ucdlfx19-serverspec-workshop.pdf ucdlfx19-serverspec-workshop.md`
 
-  Or, if you just want to view the slides, here is a PDF of them:
-  [PDF](ucdlfx19-serverspec-workshop.pdf).
+  Or, if you just want to view the slides, a PDF of them will eventually be place here:
+  [PDF](ucdlfx19-serverspec-workshop.pdf). However, this workshp is currently being
+  drafted right now, so, for a quick preview of the content of the slides, you
+  can just glance at the [markdown file](ucldfx19-serverspec-workshop.md).
 
 ![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)
 _This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/)</a>._

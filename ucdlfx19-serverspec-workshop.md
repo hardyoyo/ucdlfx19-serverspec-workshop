@@ -352,7 +352,10 @@ you should use. If you aren't doing this kind of testing, it's a good starting p
 * you do not have to follow along on your computer, you can just watch me
 * slides are at: [github.com/hardyoyo/ucdlfx19-serverspec-workshop](https://github.com/hardyoyo/ucdlfx19-serverspec-workshop)
 * if you do want to follow along, you need Ruby 2.5.1 or higher installed
+* you can check your Ruby version with `ruby -v`
 * to install ServerSpec, run this: `gem install serverspec`
+* you also need to be able to SSH to the `fakeuniversity` servers, let's check that now: `ssh bubbles.fakeuniversity.space`
+* your username and password are on the sheet of paper you picked up at the beginning
 ---
 # Three Scenarios: disclaimer
 The story, all names, characters, and incidents portrayed in this workshop are
@@ -361,15 +364,45 @@ buildings, and products is intended or should be inferred.
 
 ---
 # Three Scenarios... the premis
-* you are the newbie, a new hire, at a fictitious academic library
+* you are the newbie, a new hire, at `fakeuniversity.space` library
 * you are trying to make sense of it all
 * you want to be useful at the same time
 * this place is a mess
 
 ---
-# Scenario One: Most of our stuff is static? We think?
+# Scenario One: Most of our stuff is static?
 * write a test to confirm Apache is running and it's the correct version
 * deal with any surprises that come up
+
+---
+# Scenario One: serverspec-init to the rescue!
+```
+mkdir waitwhat
+cd waitwhat
+serverspec-init
+Select OS type:
+
+  1) UN*X
+  2) Windows
+
+Select number: 1
+
+Select a backend type:
+
+  1) SSH
+  2) Exec (local)
+
+Select number: 1
+
+Vagrant instance y/n: n
+Input target host name: www1.fakeuniversity.space
+ + spec/
+ + spec/www1.fakeuniversity.space/
+ + spec/www1.fakeuniversity.space/sample_spec.rb
+ + spec/spec_helper.rb
+ + Rakefile
+ + .rspec
+
 
 ---
 # Scenario Two: We really want to move everything to Samvera
@@ -383,6 +416,19 @@ buildings, and products is intended or should be inferred.
 
 ---
 # Questions and Wrap-up
+* Is this just for "getting our bearings?"
+* How do we integrate this kind of testing into existing development workflows?
+
+Note:
+Well... it makes for a nice introduction to ServerSpec, but, no, it's not just
+for finding your way around a set of projects.
+If you're working with containers at all, DockerSpec turns out to be a really
+handy way to build an integration test for the application you are containerizing.
+Even if you're still building servers by hand, it is still a good idea to write
+a test for what you are planning to build *before* you build it. It helps clarify
+your intentions, and will be a good basis for onboarding your team, because
+it's clear documentation of your expectations, and is an understandable way
+for anyone on your team to confirm things are working as you expect.
 
 
 ---
