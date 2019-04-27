@@ -59,7 +59,7 @@ After working in library tech a while, here's a thing I know...
 Note:
 We are constantly learning. Heh, mailing list. And our jobs change all the time. We are always the newbie.
 
-----
+---
 <!-- .slide: data-background="./images/_absolutely_free_photos_original_photos_connection-of-ideas-3600x2542_26127.jpg" data-background-size="contain"-->
 # always the newbie <!-- .element: class="fragment" -->
 Note:
@@ -348,34 +348,66 @@ to staging or prod, ServerSpec is a great fit. If you want to write tests that c
 survive a long time and still be clear about what they expect, ServerSpec is the tool
 you should use. If you aren't doing this kind of testing, it's a good starting point.
 ---
-# Three Scenarios... getting ready
+# Three Scenarios...
+## getting ready (1 of 3)
 * you do not have to follow along on your computer, you can just watch me
 * slides are at: [github.com/hardyoyo/ucdlfx19-serverspec-workshop](https://github.com/hardyoyo/ucdlfx19-serverspec-workshop)
 * if you do want to follow along, you need Ruby 2.5.1 or higher installed
-* you can check your Ruby version with `ruby -v`
-* to install ServerSpec, run this: `gem install serverspec`
-* you also need to be able to SSH to the `fakeuniversity` servers, let's check that now: `ssh bubbles.fakeuniversity.space`
-* your username and password are on the sheet of paper you picked up at the beginning
 ---
-# Three Scenarios: disclaimer
+# Three Scenarios...
+## getting ready (2 of 3)
+* you can check your Ruby version with `ruby -v`
+* is it 2.5.1 or higher?
+  * Yes, you're good
+  * No, just watch me.
+* to install ServerSpec, run this:
+
+```gem install serverspec```
+---
+# Three Scenarios...
+## getting ready (3 of 3)
+* you also need to be able to SSH to the fakeuniversity servers
+
+```ssh www1.fakeuniversity.space```
+
+* your *username* and *password* are on the sheet of paper you picked up at the beginning
+---
+# Three Scenarios...
+## disclaimer
 The story, all names, characters, and incidents portrayed in this workshop are
 fictitious. No identification with actual persons (living or deceased), places,
 buildings, and products is intended or should be inferred.
 
 ---
-# Three Scenarios... the premis
+# Three Scenarios...
+## the premis
 * you are the newbie, a new hire, at `fakeuniversity.space` library
 * you are trying to make sense of it all
 * you want to be useful at the same time
 * this place is a mess
 
 ---
-# Scenario One: Most of our stuff is static?
+# Scenario One
+## Most of our stuff is static?
 * write a test to confirm Apache is running and it's the correct version
 * deal with any surprises that come up
 
 ---
-# Scenario One: serverspec-init to the rescue!
+# Scenario One
+## what are we testing?
+
+### server names
+ * www1.fakeuniversity.space
+ * www2.fakeuniversity.space
+ * bubbles.fakeuniversity.space
+
+### OS: Ubuntu
+### port: 80
+### package: apache
+
+---
+# Scenario One
+## serverspec-init to the rescue! (1 of 2)
 ```
 mkdir waitwhat
 cd waitwhat
@@ -393,7 +425,12 @@ Select a backend type:
   2) Exec (local)
 
 Select number: 1
+```
+---
+# Scenario One
+## serverspec-init to the rescue! (2 of 2)
 
+```
 Vagrant instance y/n: n
 Input target host name: www1.fakeuniversity.space
  + spec/
@@ -402,7 +439,7 @@ Input target host name: www1.fakeuniversity.space
  + spec/spec_helper.rb
  + Rakefile
  + .rspec
-
+```
 
 ---
 # Scenario Two: We really want to move everything to Samvera
