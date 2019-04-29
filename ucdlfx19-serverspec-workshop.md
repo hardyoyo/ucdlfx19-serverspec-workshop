@@ -50,10 +50,10 @@ After working in library tech a while, here's a thing I know...
 
 ---
 # We are constantly learning about our environment
-* Developers shop jobs a lot
+* Developers shop jobs
 * Have you seen the mailing list?
-* We change jobs a lot
-* Our jobs change a lot all on their own
+* We change jobs
+* Our jobs change all on their own
 * `We are always the newbie`
 
 Note:
@@ -322,7 +322,7 @@ DockerSpec, here, let me show you a demo.
 * [code: github.com/UCLALibrary/docker-cantaloupe](https://github.com/UCLALibrary/docker-cantaloupe)
 * [demo](https://asciinema.org/a/0lKzSKyfu9CJpoAa2Nq1CZkIZ)
 <asciinema-player src="sessions/docker-cantaloupe-demo.cast" speed="2" cols="100" rows="20" font-size="16px" theme="monokai" tabindex="1" id="demo2" />
-----
+---
 # Other options
 * [InSpec](https://github.com/chef/inspec) (still Ruby, by the Chef people)
 * [Goss](https://github.com/aelsabbahy/goss) (YAML, can generate tests from current system state)
@@ -332,7 +332,7 @@ DockerSpec, here, let me show you a demo.
 Note:
 There are other options, of course, Inspec is still Ruby and the syntax is very similar (it's also based on RSpec), Goss can generate tests based on the current system state and is a great option if you're
 in a hurry. Testinfra is a great fit for an Ansible shop. Molecule is for Ansible Roles, so it might be enough.
-----
+---
 # Why ServerSpec?
 https://medium.com/@Joachim8675309/serverspec-vs-inspec-17272df2718f
 - ServerSpec is targeted for the developer working on DevOps
@@ -347,12 +347,19 @@ looking for a tool that can transition from local devops work to testing deploym
 to staging or prod, ServerSpec is a great fit. If you want to write tests that can
 survive a long time and still be clear about what they expect, ServerSpec is the tool
 you should use. If you aren't doing this kind of testing, it's a good starting point.
+And, it's why we're here today, so let's start!
 ---
 # Three Scenarios...
 ## getting ready (1 of 3)
 * you do not have to follow along on your computer, you can just watch me
 * slides are at: [github.com/hardyoyo/ucdlfx19-serverspec-workshop](https://github.com/hardyoyo/ucdlfx19-serverspec-workshop)
 * if you do want to follow along, you need Ruby 2.5.1 or higher installed
+Note:
+So, I have three scenarios we will work through for writing some tests. I appologize
+if these scenarios hit a little close to home, I tried to keep them simple and
+also kinda realistic. You can get the markdown file I am using to drive this
+presentation, it is at that URL, and will let you copy/paste code if you're
+following along with me.
 ---
 # Three Scenarios...
 ## getting ready (2 of 3)
@@ -363,6 +370,14 @@ you should use. If you aren't doing this kind of testing, it's a good starting p
 * to install ServerSpec, run this:
 
 ```gem install serverspec```
+
+Note:
+If you are following along, you can check your Ruby version with a ruby dash vee
+command. And then you can install the serverspec gem with gem install serverspec.
+Depending on your Ruby installation you might need to use "sudo" in front of
+that command, you'll know more about that than I would. If you get stuck here,
+it's OK, just watch me and take notes, these slides are available for you later
+if you want to circle back.
 ---
 # Three Scenarios...
 ## getting ready (3 of 3)
@@ -371,6 +386,12 @@ you should use. If you aren't doing this kind of testing, it's a good starting p
 ```ssh www1.fakeuniversity.space```
 
 * your *username* and *password* are on the sheet of paper you picked up at the beginning
+
+Note:
+You'll also need to be able to SSH to the fakeuniversity servers, so go ahead
+and try that now. You should have a piece of paper with a user name and password
+to use. If you don't, I can get you one now. Raise your hand if you'd like
+credentials to the fakeuniversity servers?
 ---
 # Three Scenarios...
 ## disclaimer
@@ -378,6 +399,10 @@ The story, all names, characters, and incidents portrayed in this workshop are
 fictitious. No identification with actual persons (living or deceased), places,
 buildings, and products is intended or should be inferred.
 
+Note:
+Just so we're clear, while these scenarios are insanely banal and not at all
+unusual, I thought it would be good to stick a disclaimer up front: this is
+entirely made up.
 ---
 # Three Scenarios...
 ## the premis
@@ -386,11 +411,21 @@ buildings, and products is intended or should be inferred.
 * you want to be useful at the same time
 * this place is a mess
 
+Note:
+You are all newbies, newly hired to help the team at fakeuniversity library
+in their quest for greatness. And, while, yes, this place is a mess, it isn't
+unusually so.
+
 ---
 # Scenario One
 ## Most of our stuff is static?
 * write a test to confirm Apache is running and it's the correct version
 * deal with any surprises that come up
+
+Note:
+I promise there won't be any serious surprises, that's just a joke.
+Honest. Most of fakeuniversity's digital collections are static web sites.
+For now. As far as we know.
 
 ---
 # Scenario One
@@ -404,6 +439,13 @@ buildings, and products is intended or should be inferred.
 ### OS: Ubuntu
 ### port: 80
 ### package: apache
+
+Note:
+OK, in reality, most of the time you will never be handed these details,
+you'll have to go looking for them. But, this isn't a workshop in how to
+survive in IT cultures, we're here to learn about a tool. So, let's pretend
+a kindly senior developer keeps very detailed docs, and has shared them
+with you. And these docs are all correct. We have to assume they are, anyway.
 
 ---
 # Scenario One
@@ -440,16 +482,57 @@ Input target host name: www1.fakeuniversity.space
  + Rakefile
  + .rspec
 ```
+Note:
+The sample_spec.rb file should look familiar, just like the demo from ealier.
+Let's take a look. And I'll put this slide back up as a reminder of what
+we're testing. But I'll also change into live-coding mode here. And open up a
+terminal.
 
+---
+# Scenario One: Static Stuff
+## wait, what are we testing?
+
+### server names
+ * www1.fakeuniversity.space
+ * www2.fakeuniversity.space
+ * bubbles.fakeuniversity.space
+
+### OS: Ubuntu
+### port: 80
+### package: apache
 ---
 # Scenario Two: We really want to move everything to Samvera
 * "We have a pilot server"
 * write a test for this pilot server
 
 ---
-# Scenario Three: Gosh, everything on the same box is slow, let's split it out
+# Scenario Two: Samvera?
+## what are we testing?
+
+### server names
+ * hyraxdemo.fakeuniversity.space
+
+### OS: Ubuntu
+### ports: 80
+### packages: apache
+
+---
+# Scenario Three: Gosh, everything on the same box is slow, let's throw hardware at it
 * refactor the test for the pilot server into pieces that can be reused
 * write a test for each environment (dev, staging, prod) using these pieces
+
+---
+# Scenario Three: MOAR Samvera (hardware)?
+
+### server names
+ * hyrax-db.fakeuniversity.space
+ * hyrax-solr.fakeuniversity.space
+ * hyrax-fcrepo.fakeuniversity.space
+ * hyrax-app.fakeuniversity.space
+
+### OS: Ubuntu
+### ports: 80
+### packages: apache
 
 ---
 # Questions and Wrap-up
