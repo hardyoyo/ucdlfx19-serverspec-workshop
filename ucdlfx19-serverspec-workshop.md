@@ -438,7 +438,7 @@ For now. As far as we know.
 
 ### OS: Ubuntu
 ### port: 80
-### package: apache
+### package: apache2
 
 Note:
 OK, in reality, most of the time you will never be handed these details,
@@ -467,6 +467,7 @@ Select a backend type:
   2) Exec (local)
 
 Select number: 1
+cd spec
 ```
 ---
 # Scenario One
@@ -509,12 +510,25 @@ terminal.
 # Scenario Two: Samvera?
 ## what are we testing?
 
-### server names
+### server name
  * hyraxdemo.fakeuniversity.space
 
 ### OS: Ubuntu
-### ports: 80
-### packages: apache
+### services: MySQL, Solr, Fcrepo, Apache
+### ports: 3306, 8081, 80, 443, 8983
+### packages: mysql-community-common, mysql-community-client, apache, tomcat
+
+Note:
+This is getting complicated, isn't it? Now,
+you can eventually write a single spec test
+for everything on this list... but you know
+what's coming, right? What happens when you
+run a bunch of services on a single box?
+Eventually, somebody is going to notice
+that this poor box is sloooooow. And you'll
+have to move every service to its own box.
+It's also easier to focus on one service
+at a time.
 
 ---
 # Scenario Three: Gosh, everything on the same box is slow, let's throw hardware at it
