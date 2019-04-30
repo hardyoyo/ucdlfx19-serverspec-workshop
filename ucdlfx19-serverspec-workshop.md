@@ -436,9 +436,9 @@ For now. As far as we know.
  * www2.fakeuniversity.space
  * bubbles.fakeuniversity.space
 
-### OS: Ubuntu
-### port: 80
-### package: apache2
+* OS: Ubuntu
+* port: 80
+* package: apache2
 
 Note:
 OK, in reality, most of the time you will never be handed these details,
@@ -490,33 +490,47 @@ we're testing. But I'll also change into live-coding mode here. And open up a
 terminal.
 
 ---
-# Scenario One: Static Stuff
-## wait, what are we testing?
+# Scenario One, Static Stuff
+## what are we testing?
 
-### server names
- * www1.fakeuniversity.space
- * www2.fakeuniversity.space
- * bubbles.fakeuniversity.space
+### details
+* www1.fakeuniversity.space
+* www2.fakeuniversity.space
+* bubbles.fakeuniversity.space
 
-### OS: Ubuntu
-### port: 80
-### package: apache
+* OS: Ubuntu
+* port: 80
+* package: apache
+
 ---
-# Scenario Two: We really want to move everything to Samvera
-* "We have a pilot server"
-* write a test for this pilot server
+# Scenario One
+## It's never this easy
+* https://serverspec.org/advanced_tips.html
+![it's complicated](images/Complicated_just_like_life_5227673406.jpg "it's complicated")
+Note:
+Very quickly, your nice simple static web servers get complicated, the more
+things you add on to them. And it's OK, you can totally keep building bigger
+and more complicated spec files, but... there's a better way. Speaking of
+better ways, our team mates are excited by our testing work, and they have
+decided let us in on the big plan.
+
+---
+# Scenario Two
+## We really want to move everything to Samvera
+* "We have a pilot server..."
+* "Can you write a test for the pilot server?"
 
 ---
 # Scenario Two: Samvera?
 ## what are we testing?
 
-### server name
- * hyraxdemo.fakeuniversity.space
+### details
+hyraxdemo.fakeuniversity.space
 
-### OS: Ubuntu
-### services: MySQL, Solr, Fcrepo, Apache
-### ports: 3306, 8081, 80, 443, 8983
-### packages: mysql-community-common, mysql-community-client, apache, tomcat
+* OS: Ubuntu
+* services: MySQL, Solr, Fcrepo, Apache
+* ports: 3306, 8081, 80, 443, 8983
+* packages: mysql-community-common, mysql-community-client, apache, tomcat
 
 Note:
 This is getting complicated, isn't it? Now,
@@ -531,9 +545,44 @@ It's also easier to focus on one service
 at a time.
 
 ---
+# Scenario Two: Samvera?
+## services
+
+* a database: MySQL
+* an index: Solr
+* an object store: Fcrepo
+* an application server: Apache
+* https://serverspec.org/advanced_tips.html
+
+Note:
+This page on the docs is so helpful, I'm going to jump over to it and follow
+its advice directly. Whenever we find good docs like this, this is what we do
+to get farther faster, right? Copy/paste, play, until things work the way
+we want it to.
+
+---
+# Scenario Two: Samvera?
+## services
+
+* a database: MySQL
+  - port: 3306
+  - packages: mysql-community-common, mysql-community-client
+* an index: Solr
+  - port:
+  - packages:
+* an object store: Fcrepo
+  - TODO: copy stuff from my tests for Californica
+* an application server: Apache
+  - port:
+  - packages:
+
+---
 # Scenario Three: Gosh, everything on the same box is slow, let's throw hardware at it
 * refactor the test for the pilot server into pieces that can be reused
 * write a test for each environment (dev, staging, prod) using these pieces
+
+Note: see, I told you this was coming. And we're ready for it, we just have to
+define a spec for each host, and include our shared behaviors.
 
 ---
 # Scenario Three: MOAR Samvera (hardware)?
@@ -544,14 +593,23 @@ at a time.
  * hyrax-fcrepo.fakeuniversity.space
  * hyrax-app.fakeuniversity.space
 
-### OS: Ubuntu
-### ports: 80
-### packages: apache
+### just re-use the shared behaviors we already have
+
+---
+# More resource types:
+
+Note:
+We've mostly been using the ports and packages resource types. But there are many
+more. Let's look at a few:
+https://serverspec.org/resource_types.html
 
 ---
 # Questions and Wrap-up
 * Is this just for "getting our bearings?"
 * How do we integrate this kind of testing into existing development workflows?
+* Try DockerSpec if you're using Docker
+ - https://github.com/zuazo/dockerspec
+ - https://github.com/UCLALibrary/docker-cantaloupe/tree/master/spec
 
 Note:
 Well... it makes for a nice introduction to ServerSpec, but, no, it's not just
@@ -564,12 +622,15 @@ your intentions, and will be a good basis for onboarding your team, because
 it's clear documentation of your expectations, and is an understandable way
 for anyone on your team to confirm things are working as you expect.
 
+Any questions?
+
 
 ---
 # Thanks
 * Inspiration for this workshop: JJ Asghar's /Rants and Ramblings blog post on ServerSpec:
 https://jjasghar.github.io/blog/2013/07/12/serverspec-the-new-best-way-to-learn-and-audit-your-infrastructure/
 * _ServerSpec Components_, adapted from ["Introduction to Test-Driven Docker Development,"](https://entwickler.de/online/development/docker-test-driven-development-b-170207.html) by Peter Roßbach,  Wednesday, August 12, 2015, [Entwickler.de](https://entwickler.de/)
+* _It's Complicated just like life_ from [Wikimedia Commons ](https://commons.wikimedia.org/wiki/File:Complicated_just_like_life_(5227673406).jpg)
 
 Slides:
 [github.com/hardyoyo/ucdlfx19-serverspec-workshop](https://github.com/hardyoyo/ucdlfx19-serverspec-workshop)
