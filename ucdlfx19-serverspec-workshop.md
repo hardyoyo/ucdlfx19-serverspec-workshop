@@ -567,14 +567,17 @@ we want it to.
 * a database: MySQL
   - port: 3306
   - packages: mysql-community-common, mysql-community-client
+  - versions:
 * an index: Solr
   - port:
   - packages:
+  - versions:
 * an object store: Fcrepo
   - TODO: copy stuff from my tests for Californica
 * an application server: Apache
   - port:
   - packages:
+  - versions:
 
 ---
 # Scenario Three: Gosh, everything on the same box is slow, let's throw hardware at it
