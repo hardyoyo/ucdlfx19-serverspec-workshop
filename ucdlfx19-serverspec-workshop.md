@@ -435,7 +435,6 @@ For now. As far as we know.
  * www1.fakeuniversity.space
  * www2.fakeuniversity.space
  * bubbles.fakeuniversity.space
- * ip address: 54.245.43.43
 
 * OS: Ubuntu
 * port: 80
@@ -492,6 +491,12 @@ The sample_spec.rb file should look familiar, just like the demo from ealier.
 Let's take a look. And I'll put this slide back up as a reminder of what
 we're testing. But I'll also change into live-coding mode here. And open up a
 terminal.
+
+---
+# Scenario One
+## spec_helper.rb
+* the default spec_helper.rb file might need tweaking
+* it doesn't allow password authentication, which we need
 
 ---
 # Scenario One, Static Stuff
@@ -554,7 +559,7 @@ at a time.
 # Scenario Two: Samvera?
 ## services
 
-* a database: MySQL
+* a database: PostgreSQL
 * an index: Solr
 * an object store: Fcrepo
 * an application server: Apache
@@ -570,20 +575,27 @@ we want it to.
 # Scenario Two: Samvera?
 ## services
 
-* a database: MySQL
-  - port: 3306
-  - packages: mysql-community-common, mysql-community-client
-  - versions:
+* a database: PostgreSQL
+  - port: 5432
+  - packages: postgresql-10, postgresql-client-10
+  - versions: 10.7-0ubuntu0.18.04.1
 * an index: Solr
-  - port:
-  - packages:
-  - versions:
+  - port: 8983
+  - service: solr
+  - packages: use the binary installer from Solr
+  - version: 6.6.2
+  - service: solr
 * an object store: Fcrepo
-  - TODO: copy stuff from my tests for Californica
-* an application server: Apache
+  - port: 8081
+  - service: fedora
+  - packages: tomcat and the fcrepo war file
+  - version:
+* an application server: Apache Passenger
   - port:
+  - service: apache2
   - packages:
   - versions:
+* Java, Ruby, Gems, Capistrano, oh my!
 
 ---
 # Scenario Three: Gosh, everything on the same box is slow, let's throw hardware at it

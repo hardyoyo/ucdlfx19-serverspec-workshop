@@ -7,9 +7,8 @@ ec2-34-222-253-179.us-west-2.compute.amazonaws.com
 [hyrax:vars]
 host=ec2-34-222-253-179.us-west-2.compute.amazonaws.com
 domain=ec2-34-222-253-179.us-west-2.compute.amazonaws.com
-postgres_pass=flybynight
 fcdb_user=fcdb_user
-fcdb_pass=fcdb_pass
+
 
 [all:vars]
 ansible_ssh_user=ubuntu
@@ -17,4 +16,3 @@ ansible_ssh_private_key_file=/home/hpottinger/.ssh/hardy-ucdlfx19.pem
 project_name=hyraxdemo
 passenger_ver=5.1.11
 hostname=hyraxdemo.fakeuniversity.space
-postgres_pass=flybynight

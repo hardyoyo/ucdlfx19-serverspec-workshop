@@ -41,7 +41,7 @@
 - name: set postgres password
   become: yes
   become_user: postgres
-  postgresql_user: name=postgres password=flybynight
+  postgresql_user: name=postgres password={{postgres_pass}}
   ignore_errors: no
 
 - name: determine postgres directory
@@ -71,8 +71,7 @@
   service: name=postgresql enabled=yes state=restarted
 
 - name: create samvera database
-  postgresql_db: name={{ project_name }} state=present login_user=postgres login_password=flybynight
+  postgresql_db: name={{ project_name }} state=present login_user=postgres login_password={{postgres_pass}}
 
 - name: add samvera user
-  postgresql_user: db={{ project_name }} name={{ db_user }} password={{ db_pass }} priv=ALL state=present login_user=postgres login_password=flybynight
-
+  postgresql_user: db={{ project_name }} name={{ db_user }} password={{ db_pass }} priv=ALL state=present login_user=postgres login_password={{postgres_pass}}

@@ -27,7 +27,7 @@
     - { role: clamav }
     - { role: geerlingguy.java, java_packages: 'openjdk-8-jdk' }
     - { role: ruby, ruby_version: '2.4.2', ruby_sha_256: '93b9e75e00b262bc4def6b26b7ae8717efc252c47154abb7392e54357e6c8c9c' }
-    - { role: postgres }
+    - { role: postgres,  }
     - { role: fedora, fedora_version: '4.7.5' }
     - { role: geerlingguy.solr, solr_version: '6.6.2', solr_cores: "{{ project_name }}", solr_create_user: true, solr_user: 'solr', solr_workspace: '/var/solr', become: yes  }
     - { role: pip }
