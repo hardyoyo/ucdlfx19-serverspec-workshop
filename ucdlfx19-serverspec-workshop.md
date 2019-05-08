@@ -328,10 +328,13 @@ DockerSpec, here, let me show you a demo.
 * [Goss](https://github.com/aelsabbahy/goss) (YAML, can generate tests from current system state)
 * [TestInfra](https://github.com/philpep/testinfra) (Python, works well with Ansible)
 * [Molecule](https://github.com/ansible/molecule) (only tests Ansible roles)
+* [ServerSpec-runner](https://github.com/hiracy/serverspec-runner) (organizes complex ServerSpec tests)
 
 Note:
 There are other options, of course, Inspec is still Ruby and the syntax is very similar (it's also based on RSpec), Goss can generate tests based on the current system state and is a great option if you're
-in a hurry. Testinfra is a great fit for an Ansible shop. Molecule is for Ansible Roles, so it might be enough.
+in a hurry. Testinfra is a great fit for an Ansible shop. Molecule is for Ansible Roles, so it might be enough. ServerSpec-Runner is still ServerSpec, it's just a nice framework
+for managing complex collections of recipes, which we'll do in a different way during
+this workshop, but it's worth checking out.
 ---
 # Why ServerSpec?
 https://medium.com/@Joachim8675309/serverspec-vs-inspec-17272df2718f
@@ -497,7 +500,37 @@ terminal.
 ## spec_helper.rb
 * the default spec_helper.rb file might need tweaking
 * it doesn't allow password authentication, which we need
+* you can just copy the one I tested
 
+```
+cd spec
+wget https://tinyurl.com/spec-helper-rb
+```
+---
+# Scenario One,
+## spec_helper.rb
+```
+# retrieve the hostname
+host = ENV['TARGET_HOST']
+puts "host =  '#{host}'"
+
+# configure options for SSH
+options = Net::SSH::Config.for(host)
+set :host,        options[:host_name] || host
+options[:auth_methods]  = ['password']
+
+if ENV['LOGIN_USER']
+    options[:user] = ENV['LOGIN_USER']
+else
+    options[:user] ||= Etc.getlogin
+end
+
+# and apply our SSH options
+set :ssh_options, options
+
+# Disable sudo
+set :disable_sudo, true
+```
 ---
 # Scenario One, Static Stuff
 ## what are we testing?
@@ -625,6 +658,13 @@ more. Let's look at a few:
 https://serverspec.org/resource_types.html
 
 ---
+# Things to remember
+* spec_helper hides a *lot* of functionality
+  * if you can't figure out how to do something, the solution probably is in there
+  * https://git.io/fjcAw <-helpful notes
+* ServerSpec tests are Ruby files, you have the full power of Ruby at your command
+
+---
 # Questions and Wrap-up
 * Is this just for "getting our bearings?"
 * How do we integrate this kind of testing into existing development workflows?
@@ -643,6 +683,8 @@ your intentions, and will be a good basis for onboarding your team, because
 it's  documentation, and it's understandable.
 
 Any questions?
+
+
 
 ---
 # Have you seen these cool zines?
