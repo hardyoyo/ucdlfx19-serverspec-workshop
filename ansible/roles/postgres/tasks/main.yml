@@ -1,0 +1,78 @@
+# ROLE: postgres
+# roles/postgres/tasks/main.yml
+#
+# Installs Postgres SQL and supporting libraries
+# Usage:
+#    - { role: postgres }
+
+- name: install postgresql packages
+  package: name={{ item }} state=present
+  become: yes
+  with_items:
+    - postgresql
+    - libpq-dev
+    - python-psycopg2
+  notify:
+
+- name: configure trust security for local postgress users (required for idempotency)
+  become: yes
+  lineinfile:
+    path: /etc/postgresql/10/main/pg_hba.conf
+    regexp: '^local\s+all\s+postgres'
+    line: 'local	all		postgres				trust'
+  notify: postgresql-restart
+
+- name: restart postgres server after trust
+  become: yes
+  service: name=postgresql enabled=yes state=restarted
+
+- name: create db_backups directory
+  become: yes
+  file: owner=postgres group=postgres state=directory path=/opt/pg_backups
+
+- name: add pg_backups script
+  become: yes
+  template: src=pg_backups.j2 dest=/opt/pg_backups/pg_daily_double owner=root group=root mode=0755
+
+- name: add pg_backups cron job
+  become: yes
+  cron: name="backup pg db" user=postgres job="/opt/pg_backups/pg_daily_double" minute="0" hour="1" state=present
+
+- name: set postgres password
+  become: yes
+  become_user: postgres
+  postgresql_user: name=postgres password=flybynight
+  ignore_errors: no
+
+- name: determine postgres directory
+  shell: ls /etc/postgresql
+  register: postgres_version
+
+- name: configure md5 security local postgress users
+  become: yes
+  lineinfile:
+    path: /etc/postgresql/{{ postgres_version.stdout }}/main/pg_hba.conf
+    regexp: '^local\s+all\s+postgres'
+    line: 'local	all		postgres				md5'
+
+- name: configure md5 security other local  users
+  become: yes
+  lineinfile:
+    path: /etc/postgresql/{{ postgres_version.stdout }}/main/pg_hba.conf
+    regexp: '^local\s+all\s+all'
+    line: 'local	all		all						md5'
+
+- name: create .pgpass for the system user to save them from typing passwords
+  become: yes
+  template: src=pgpass.j2 dest="/home/{{ system_user }}/.pgpass" owner={{ system_user }} group={{ system_user }} mode=0600
+
+- name: restart postgres server
+  become: yes
+  service: name=postgresql enabled=yes state=restarted
+
+- name: create samvera database
+  postgresql_db: name={{ project_name }} state=present login_user=postgres login_password=flybynight
+
+- name: add samvera user
+  postgresql_user: db={{ project_name }} name={{ db_user }} password={{ db_pass }} priv=ALL state=present login_user=postgres login_password=flybynight
+

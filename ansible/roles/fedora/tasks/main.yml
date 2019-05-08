@@ -1,0 +1,71 @@
+---
+# ROLE: fedora
+# roles/fedora/tasks/main.yml
+#
+# To back fedora with postgres, set these variables:
+# fedora_database: jdbc-postgresql
+# fcdb_user: fcdb_user
+# fcdb_pass: whatever
+# You must also create a postgres database called `fcrepo` and give the fcdb_user
+# rights on it
+# Note that backing fedora with PostGres is our default and is ALWAYS how we want
+# to run things in production.
+
+- name: create fcrepo database
+  postgresql_db: name=fcrepo state=present login_user=postgres login_password=flybynight
+
+- name: add samvera user
+  postgresql_user: db=fcrepo name={{ fcdb_user }} password={{ fcdb_pass }} priv=ALL state=present login_user=postgres login_password=flybynight
+
+- name: setup install directory
+  set_fact:
+    install_path: /home/{{ ansible_ssh_user }}/install
+
+- name: ensure install directory exists
+  file:
+    path: '{{ install_path }}'
+    state: directory
+
+- name: install servlet container package
+  become: yes
+  package: name=tomcat8 state=present
+
+- name: download fedora
+  get_url: url=http://repo1.maven.org/maven2/org/fcrepo/fcrepo-webapp/{{ fedora_version }}/fcrepo-webapp-{{ fedora_version }}.war owner={{ ansible_ssh_user }} dest={{ install_path }}/fcrepo-webapp-{{ fedora_version }}.war timeout=100
+
+- name: make fedora data dir
+  file: owner=tomcat8 group=tomcat8 state=directory path=/opt/fedora-data
+  become: yes
+
+- name: check fedora.war
+  stat: path=/var/lib/tomcat8/webapps/fedora.war
+  register: fedora_war
+
+- name: copy over fedora.war
+  become: yes
+  command: cp {{ install_path }}/fcrepo-webapp-{{ fedora_version }}.war /var/lib/tomcat8/webapps/fedora.war
+  when: fedora_war.stat.exists == False
+
+- name: create tomcat config and java options
+  become: yes
+  template:
+    src: tomcat8.j2
+    dest: "{{ fedora_config_file }}"
+    owner: tomcat8
+    group: tomcat8
+    backup: yes
+
+- name: set port for tomcat
+  become: yes
+  replace:
+    dest: /etc/tomcat8/server.xml
+    regexp: "8080"
+    replace: "{{ tomcat_port }}"
+
+- name: add log rotation for catalina.out (tomcat/fedora logs)
+  become: yes
+  template: src=logrotate-tomcat dest=/etc/logrotate.d/tomcat8 backup=yes
+
+- name: restart servlet
+  become: yes
+  service: name=tomcat8 enabled=yes state=restarted

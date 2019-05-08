@@ -1,0 +1,17 @@
+---
+
+# :https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+
+ffmpeg_base_url: "https://johnvansickle.com/ffmpeg"
+
+# To obtain the latest version available use: "release"
+# To obtain a specific version use the version number: "4.0.1"
+ffmpeg_version: "release"
+
+ffmpeg_filename: "ffmpeg-{{ ffmpeg_version }}-64bit-static.tar.xz"
+
+ffmpeg_download_url: "{{ ffmpeg_base_url }}/releases/{{ ffmpeg_filename }}"
+
+ffmpeg_install_dir: /opt
+
+ffmpeg_user_path_dir: /usr/local/bin

@@ -1,0 +1,47 @@
+- hosts: hyrax
+  name: ensure python is installed for ansible
+  user: ubuntu
+  gather_facts: false
+  pre_tasks:
+      - name: update apt-get
+        raw: sudo apt-get update
+      - name: install python for ansible
+        raw: sudo apt-get -y install python-simplejson
+
+- hosts: hyrax
+  name: configure server
+  user: ubuntu
+  gather_facts: true
+  vars:
+    keys_to_add:
+      - https://github.com/hardyoyo.keys
+    db_user: 'hyax_db_user'
+    db_pass: 'cDvZt6SU'
+    postgres_pass: 'cDvZt6SU'
+  roles:
+    - { role: packages }
+    - { role: set_timezone, timezone: America/Chicago }
+    - { role: set_hostname, hostname: hyrax-demo }
+    - { role: sshd_config }
+    - { role: setup_logrotation }
+    - { role: clamav }
+    - { role: geerlingguy.java, java_packages: 'openjdk-8-jdk' }
+    - { role: ruby, ruby_version: '2.4.2', ruby_sha_256: '93b9e75e00b262bc4def6b26b7ae8717efc252c47154abb7392e54357e6c8c9c' }
+    - { role: postgres }
+    - { role: fedora, fedora_version: '4.7.5' }
+    - { role: geerlingguy.solr, solr_version: '6.6.2', solr_cores: "{{ project_name }}", solr_create_user: true, solr_user: 'solr', solr_workspace: '/var/solr', become: yes  }
+    - { role: pip }
+    - { role: fits, fits_version: '1.4.1' }
+    - { role: apache, passenger_ver: '5.1.11'}
+    - { role: apache_with_mod_ssl }
+    - { role: capistrano_setup }
+    # - { role: dotenv, hostname: hyrax-demo }
+    - { role: sidekiq }
+    - { role: imagemagick, imagemagick_ver: '7.0.7', gs_ver: '9.19', openjpg_ver: '2.1.0', libtiff_ver: '4.0.5', libpng_ver: '1.6.28' }
+    - { role: uclalib_role_ffmpeg, ffmpeg_download_url: 'https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz', become: yes }
+    # - { role: solr-schema }
+
+      # use Kickme for our first deploy
+    - { role: first_deploy, repo_url: 'https://github.com/hardyoyo/kickme.git', branch: 'test' }
+
+    - { role: restart }

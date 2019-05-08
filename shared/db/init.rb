@@ -1,14 +1,14 @@
 shared_examples 'database::init' do
 
-  # port 3306 is open
-  %w{3306}.each do |ports|
+  # port 5432 is open
+  %w{5432}.each do |ports|
     describe port(ports) do
       it { should be_listening }
     end
   end
 
   # Verify services
-  %w{mysqld}.each do |svc|
+  %w{postgresql}.each do |svc|
     describe service(svc) do
       it { should be_running }
     end
@@ -16,11 +16,11 @@ shared_examples 'database::init' do
 
   # define required packages
   packages = {
-    'mysql-community-common' => {
-      version: '5.6.41'
+    'postgresql-10' => {
+      version: '10.7-0ubuntu0.18.04.1]'
     },
-    'mysql-community-client' => {
-      version: '5.6.41'
+    'postgresql-client-10' => {
+      version: '10.7-0ubuntu0.18.04.1]'
     }
   }
 

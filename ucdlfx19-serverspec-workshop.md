@@ -435,15 +435,19 @@ For now. As far as we know.
  * www1.fakeuniversity.space
  * www2.fakeuniversity.space
  * bubbles.fakeuniversity.space
+ * ip address: 54.245.43.43
 
 * OS: Ubuntu
 * port: 80
 * package: apache2
+* version: 2.4.7-1ubuntu4.1
 
 Note:
 OK, in reality, most of the time you will never be handed these details,
-you'll have to go looking for them. But, this isn't a workshop in how to
-survive in IT cultures, we're here to learn about a tool. So, let's pretend
+you'll have to go looking for them. In fact, I've put a few suggestions for
+commandline tools you will probably use to find this information on the cheat
+sheet you picked up at the beginning of class. But, this isn't a workshop in how
+to survive in IT cultures, we're here to learn about a tool. So, let's pretend
 a kindly senior developer keeps very detailed docs, and has shared them
 with you. And these docs are all correct. We have to assume they are, anyway.
 
@@ -500,7 +504,8 @@ terminal.
 
 * OS: Ubuntu
 * port: 80
-* package: apache
+* package: apache2
+* version: 2.4.7-1ubuntu4.1
 
 ---
 # Scenario One
@@ -526,6 +531,7 @@ decided let us in on the big plan.
 
 ### details
 hyraxdemo.fakeuniversity.space
+ip address: 34.222.253.179
 
 * OS: Ubuntu
 * services: MySQL, Solr, Fcrepo, Apache
@@ -622,11 +628,18 @@ handy way to build an integration test for the application you are containerizin
 Even if you're still building servers by hand, it is still a good idea to write
 a test for what you are planning to build *before* you build it. It helps clarify
 your intentions, and will be a good basis for onboarding your team, because
-it's clear documentation of your expectations, and is an understandable way
-for anyone on your team to confirm things are working as you expect.
+it's  documentation, and it's understandable.
 
 Any questions?
 
+---
+# Have you seen these cool zines?
+## by Julia Evans
+https://wizardzines.com/ or
+https://jvns.ca/
+* better than a cheat sheet
+* printable
+* leave these all over your workplace
 
 ---
 # Thanks

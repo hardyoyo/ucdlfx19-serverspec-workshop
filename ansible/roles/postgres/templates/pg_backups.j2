@@ -1,0 +1,16 @@
+#!/bin/bash
+export PGPASSWORD="{{ db_pass }}"
+# removes 2-day-old backup
+rm /opt/pg_backups/samvera_day_old.bak
+# renames latest backup to day-old
+mv /opt/pg_backups/samvera.bak /opt/pg_backups/samvera_day_old.bak
+# does fresh backup of samvera database
+pg_dump -U {{ db_user }} {{ project_name }} > /opt/pg_backups/samvera.bak
+
+export PGPASSWORD="flybynight"
+# removes 2-day-old backup
+rm /opt/pg_backups/fcrepo_day_old.bak
+# renames latest backup to day-old
+mv /opt/pg_backups/fcrepo.bak /opt/pg_backups/fcrepo_day_old.bak
+# does fresh backup of samvera database
+pg_dump -U {{ fcdb_user }} fcrepo > /opt/pg_backups/fcrepo.bak

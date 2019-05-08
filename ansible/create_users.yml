@@ -1,0 +1,24 @@
+---
+- hosts: all
+  user: ubuntu
+  become: yes
+
+# create_users.yml playbook shamelessly swiped from here:
+# https://github.com/msergiy87/ansible-create-users
+# the sudo stuff has been removed, because I don't need it and it freaks me out
+
+#  vars:
+#    users:
+#      - username: galya
+#        use_sudo: no
+
+#      - username: kolya
+#        use_sudo: yes
+
+  tasks:
+  - include_vars: users.yml
+
+  - name: Add users | create users, shell, home dirs
+    user: name={{ item.username }} password={{ item.password | password_hash('sha512') }} shell=/bin/bash createhome=yes comment='created with ansible'
+    with_items: '{{users}}'
+
