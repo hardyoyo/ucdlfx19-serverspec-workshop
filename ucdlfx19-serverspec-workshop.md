@@ -680,7 +680,8 @@ when you get a chance. Second, remember that Spec tests are Ruby files, and that
 means you can use ALL of Ruby to work with them.
 
 ---
-# Questions and Wrap-up
+# Questions
+## and Wrap-up
 * Is this just for "getting our bearings?"
 * How do we integrate this kind of testing into existing development workflows?
 * Try DockerSpec if you're using Docker
