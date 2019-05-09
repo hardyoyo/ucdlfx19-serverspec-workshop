@@ -532,7 +532,7 @@ set :ssh_options, options
 set :disable_sudo, true
 ```
 ---
-# Scenario One, Static Stuff
+# Scenario One, Static
 ## what are we testing?
 
 ### details
@@ -559,12 +559,12 @@ decided let us in on the big plan.
 
 ---
 # Scenario Two
-## We really want to move everything to Samvera
+## We really want to move everything to Hyrax
 * "We have a pilot server..."
 * "Can you write a test for the pilot server?"
 
 ---
-# Scenario Two: Samvera?
+# Scenario Two: Hyrax?
 ## what are we testing?
 
 ### details
@@ -572,9 +572,9 @@ hyraxdemo.fakeuniversity.space
 ip address: 34.222.253.179
 
 * OS: Ubuntu
-* services: MySQL, Solr, Fcrepo, Apache
+* services: PostgreSQL, Solr, Fcrepo, Apache
 * ports: 3306, 8081, 80, 443, 8983
-* packages: mysql-community-common, mysql-community-client, apache, tomcat
+* packages: postgresql-10, postgresql-client-10, apache, tomcat
 
 Note:
 This is getting complicated, isn't it? Now,
@@ -589,13 +589,13 @@ It's also easier to focus on one service
 at a time.
 
 ---
-# Scenario Two: Samvera?
+# Scenario Two: Hyrax?
 ## services
 
-* a database: PostgreSQL
-* an index: Solr
-* an object store: Fcrepo
-* an application server: Apache
+* a **database**: PostgreSQL
+* an **index**: Solr
+* an **object store**: Fcrepo
+* an **application server**: Apache
 * https://serverspec.org/advanced_tips.html
 
 Note:
@@ -605,33 +605,36 @@ to get farther faster, right? Copy/paste, play, until things work the way
 we want it to.
 
 ---
-# Scenario Two: Samvera?
-## services
+# Scenario Two: Hyrax?
+## services (1 of 2)
 
-* a database: PostgreSQL
-  - port: 5432
+* a **database**: PostgreSQL
+  - port: 5432    |    service: postgres
   - packages: postgresql-10, postgresql-client-10
   - versions: 10.7-0ubuntu0.18.04.1
-* an index: Solr
-  - port: 8983
-  - service: solr
+* an **index**: Solr
+  - port: 8983    |   service: solr
   - packages: use the binary installer from Solr
   - version: 6.6.2
-  - service: solr
-* an object store: Fcrepo
-  - port: 8081
-  - service: fedora
+
+---
+# Scenario Two: Hyrax?
+## services (2 of 2)
+
+* an **object store**: Fcrepo
+  - port: 8081  | service: fedora
   - packages: tomcat and the fcrepo war file
   - version:
-* an application server: Apache Passenger
-  - port:
-  - service: apache2
-  - packages:
+* an **application server**: Apache Passenger
+  - port:80,443  |  service: apache2
+  - packages: apache2
   - versions:
 * Java, Ruby, Gems, Capistrano, oh my!
 
 ---
-# Scenario Three: Gosh, everything on the same box is slow, let's throw hardware at it
+# Scenario Three
+## Gosh, everything is slow...
+## let's throw hardware at it
 * refactor the test for the pilot server into pieces that can be reused
 * write a test for each environment (dev, staging, prod) using these pieces
 
@@ -639,7 +642,8 @@ Note: see, I told you this was coming. And we're ready for it, we just have to
 define a spec for each host, and include our shared behaviors.
 
 ---
-# Scenario Three: MOAR Samvera (hardware)?
+# Scenario Three
+## MOAR Samvera (hardware)?
 
 ### server names
  * hyrax-db.fakeuniversity.space
@@ -651,18 +655,29 @@ define a spec for each host, and include our shared behaviors.
 
 ---
 # More resource types:
+https://serverspec.org/resource_types.html
 
 Note:
 We've mostly been using the ports and packages resource types. But there are many
-more. Let's look at a few:
-https://serverspec.org/resource_types.html
+more. Let's look at a few. I'll just go to this page right now, but I've also put
+these on the cheat sheet I've handed out.
 
 ---
 # Things to remember
 * spec_helper hides a *lot* of functionality
   * if you can't figure out how to do something, the solution probably is in there
   * https://git.io/fjcAw <-helpful notes
-* ServerSpec tests are Ruby files, you have the full power of Ruby at your command
+* Spec tests are Ruby files, you have the full power of Ruby at your command
+
+Note:
+Before we wrap things up, I want to leave you with a couple of things to keep in
+mind while working with ServerSpec or a related tool. First, the spec_helper is
+full of cool things, we've covered a few of them today, but it's worth remembering
+that it's there, and that a samll change in that helper file can get things working
+exactly the way you want. That short URL there has a bunch of notes about
+serverspec, including helpful snippets to put in a spec_helper file. Check it out
+when you get a chance. Second, remember that Spec tests are Ruby files, and that
+means you can use ALL of Ruby to work with them.
 
 ---
 # Questions and Wrap-up
@@ -684,8 +699,6 @@ it's  documentation, and it's understandable.
 
 Any questions?
 
-
-
 ---
 # Have you seen these cool zines?
 ## by Julia Evans
@@ -698,12 +711,18 @@ https://jvns.ca/
 ---
 # Thanks
 * Inspiration for this workshop: JJ Asghar's /Rants and Ramblings blog post on ServerSpec:
-https://jjasghar.github.io/blog/2013/07/12/serverspec-the-new-best-way-to-learn-and-audit-your-infrastructure/
+https://git.io/fjCID
 * _ServerSpec Components_, adapted from ["Introduction to Test-Driven Docker Development,"](https://entwickler.de/online/development/docker-test-driven-development-b-170207.html) by Peter Roßbach,  Wednesday, August 12, 2015, [Entwickler.de](https://entwickler.de/)
 * _It's Complicated just like life_ from [Wikimedia Commons ](https://commons.wikimedia.org/wiki/File:Complicated_just_like_life_(5227673406).jpg)
+* [DCE's Ansible-Samvera](https://github.com/curationexperts/ansible-samvera)
+* UCLA Library
 
 Slides:
 [github.com/hardyoyo/ucdlfx19-serverspec-workshop](https://github.com/hardyoyo/ucdlfx19-serverspec-workshop)
 
 Note:
-Credits, links in the slides. Thanks!
+Credits, links in the slides. Two groups I want to call out here, first, Digital
+Curation Experts for making their Ansible-Samvera project available for everyone
+to use. And second, my colleagues at UCLA Library, who put up with me working
+on this workshop for... ever. I really appreciate having the opportunity to finally
+give this workshop, thanks, for being here and sticking with me!
