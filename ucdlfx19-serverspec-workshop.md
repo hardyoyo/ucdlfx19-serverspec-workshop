@@ -431,7 +431,7 @@ Honest. Most of fakeuniversity's digital collections are static web sites.
 For now. As far as we know.
 
 ---
-# Scenario One
+# Scenario One, Static
 ## what are we testing?
 
 ### server names
@@ -454,7 +454,7 @@ a kindly senior developer keeps very detailed docs, and has shared them
 with you. And these docs are all correct. We have to assume they are, anyway.
 
 ---
-# Scenario One
+# Scenario One, Static
 ## serverspec-init to the rescue! (1 of 2)
 ```
 mkdir waitwhat
@@ -476,7 +476,7 @@ Select number: 1
 cd spec
 ```
 ---
-# Scenario One
+# Scenario One, Static
 ## serverspec-init to the rescue! (2 of 2)
 
 ```
@@ -496,7 +496,7 @@ we're testing. But I'll also change into live-coding mode here. And open up a
 terminal.
 
 ---
-# Scenario One
+# Scenario One, Static
 ## spec_helper.rb
 * the default spec_helper.rb file might need tweaking
 * it doesn't allow password authentication, which we need
@@ -507,7 +507,7 @@ cd spec
 wget https://tinyurl.com/spec-helper-rb
 ```
 ---
-# Scenario One,
+# Scenario One, Static
 ## spec_helper.rb
 ```
 # retrieve the hostname
@@ -546,7 +546,7 @@ set :disable_sudo, true
 * version: 2.4.7-1ubuntu4.1
 
 ---
-# Scenario One
+# Scenario One, Static
 ## It's never this easy
 * https://serverspec.org/advanced_tips.html
 ![it's complicated](images/Complicated_just_like_life_5227673406.jpg "it's complicated")
@@ -711,10 +711,9 @@ https://jvns.ca/
 
 ---
 # Thanks
-* Inspiration for this workshop: JJ Asghar's /Rants and Ramblings blog post on ServerSpec:
-https://git.io/fjCID
+* Inspiration: https://git.io/fjCID
 * _ServerSpec Components_, adapted from ["Introduction to Test-Driven Docker Development,"](https://entwickler.de/online/development/docker-test-driven-development-b-170207.html) by Peter Roßbach,  Wednesday, August 12, 2015, [Entwickler.de](https://entwickler.de/)
-* _It's Complicated just like life_ from [Wikimedia Commons ](https://commons.wikimedia.org/wiki/File:Complicated_just_like_life_(5227673406).jpg)
+* _It's Complicated just like life_ from [Wikimedia Commons](https://tinyurl.com/yybq9vnc)
 * [DCE's Ansible-Samvera](https://github.com/curationexperts/ansible-samvera)
 * UCLA Library
 
